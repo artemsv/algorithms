@@ -8,9 +8,41 @@ namespace Algorithms
     {
         static void Main(string[] args)
         {
-            //var sourceArray = GetSourceArray(10000);
-            SortByInsert(GetSourceArray(50000));
-            SortByBubble(GetSourceArray(50000));
+            var sourceArray = GetSourceArray(10000);
+            SortByInsert(sourceArray.Clone() as int[]);
+            SortByBubble(sourceArray.Clone() as int[]);
+            SortByMergeRecursive(sourceArray.Clone() as int[]);
+        }
+
+        private static void SortByMergeRecursive(int[] array)
+        {
+            PrintArray("Source", array);
+            long iterations = 0;
+            var startTime = Stopwatch.StartNew();
+
+            MergeSortRecursive(array, 0, array.Length - 1);
+
+            PrintArray("Result", array);
+            Console.WriteLine($"Iterations: {iterations}");
+            Console.WriteLine($"Time(ms): {startTime.ElapsedMilliseconds}");
+        }
+
+        private static void MergeSortRecursive(int[] numbers, int left, int right)
+        {
+            int mid;
+
+            if (right > left)
+            {
+                mid = (right + left) / 2;
+                MergeSortRecursive(numbers, left, mid);
+                MergeSortRecursive(numbers, (mid + 1), right);
+
+                DoMerge(numbers, left, (mid + 1), right);
+            }
+        }
+
+        private static void DoMerge(int[] numbers, int left, int mid, int right)
+        {
         }
 
         private static int[] GetSourceArray(int type)
