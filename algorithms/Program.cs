@@ -20,34 +20,64 @@ namespace Algorithms
             long iterations = 0;
             var startTime = Stopwatch.StartNew();
 
-            MergeSortRecursive(array, 0, array.Length - 1);
+            MergeSortRecursive(array, 0, array.Length - 1, ref iterations);
 
             PrintArray("Result", array);
             Console.WriteLine($"Iterations: {iterations}");
             Console.WriteLine($"Time(ms): {startTime.ElapsedMilliseconds}");
         }
 
-        private static void MergeSortRecursive(int[] numbers, int left, int right)
+        private static void MergeSortRecursive(int[] numbers, int left, int right, ref long iterations)
         {
             int mid;
 
-            if (right > left)
+            if (left < right)
             {
                 mid = (right + left) / 2;
-                MergeSortRecursive(numbers, left, mid);
-                MergeSortRecursive(numbers, (mid + 1), right);
+                MergeSortRecursive(numbers, left, mid, ref iterations);
+                MergeSortRecursive(numbers, (mid + 1), right, ref iterations);
 
-                DoMerge(numbers, left, (mid + 1), right);
+                DoMerge(numbers, left, mid, right, ref iterations);
             }
         }
 
-        private static void DoMerge(int[] numbers, int left, int mid, int right)
+        private static void DoMerge(int[] numbers, int left, int mid, int right, ref long iterations)
         {
+            var lengthLeft = mid - left + 1;
+            var lengthRight = right - mid;
+            var leftArray = new int[lengthLeft + 1];
+            var rightArray = new int[lengthRight + 1];
+
+            for (int k = 0; k < lengthLeft; k++)
+                leftArray[k] = numbers[left + k];
+            for (int k = 0; k < lengthRight; k++)
+                rightArray[k] = numbers[mid + 1 + k];
+
+            leftArray[lengthLeft] = int.MaxValue;
+            rightArray[lengthRight] = int.MaxValue;
+
+            int lIndex = 0, rIndex = 0;
+
+            for (var k = left; k <= right; k++)
+            {
+                if (leftArray[lIndex] <= rightArray[rIndex])
+                {
+                    numbers[k] = leftArray[lIndex];
+                    lIndex++;
+                }
+                else
+                {
+                    numbers[k] = rightArray[rIndex];
+                    rIndex++;
+                }
+
+                iterations++;
+            }
         }
 
         private static int[] GetSourceArray(int type)
         {
-            switch(type)
+            switch (type)
             {
                 case 0:
                     return new int[] { 5, 0, 9, 45, 190, 9, 5, 7, 13 };
@@ -64,7 +94,7 @@ namespace Algorithms
                         return test2;
                     }
             }
-            
+
         }
 
         static void SortByInsert(int[] array)
@@ -93,7 +123,7 @@ namespace Algorithms
             Console.WriteLine($"Iterations: {iterations}");
             Console.WriteLine($"Time(ms): {startTime.ElapsedMilliseconds}");
         }
-        
+
         static void SortByBubble(int[] array)
         {
             PrintArray("Source", array);
@@ -103,10 +133,10 @@ namespace Algorithms
             bool swapped;
             int tmp;
 
-            for(var i = 0; i < array.Length - 1; i++)
+            for (var i = 0; i < array.Length - 1; i++)
             {
                 swapped = false;
-                for (int j = 0; j < array.Length - i -1; j++)
+                for (int j = 0; j < array.Length - i - 1; j++)
                 {
                     if (array[j] > array[j + 1])
                     {
@@ -137,7 +167,7 @@ namespace Algorithms
                 Console.WriteLine(title);
             }
 
-            for (var k = 0; k < Math.Min(array.Length, 15);k++)
+            for (var k = 0; k < Math.Min(array.Length, 15); k++)
             {
                 Console.Write(array[k]);
                 Console.Write(" ");
