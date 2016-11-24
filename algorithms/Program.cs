@@ -9,9 +9,39 @@ namespace Algorithms
         static void Main(string[] args)
         {
             var sourceArray = GetSourceArray(10000);
-            SortByInsert(sourceArray.Clone() as int[]);
-            SortByBubble(sourceArray.Clone() as int[]);
-            SortByMergeRecursive(sourceArray.Clone() as int[]);
+            //SortByInsert(sourceArray.Clone() as int[]);
+            //SortByBubble(sourceArray.Clone() as int[]);
+            //SortByMergeRecursive(sourceArray.Clone() as int[]);
+
+            Console.WriteLine(ConvertToBase("3E8", 16));
+            Console.WriteLine(ConvertToBase("1001", 2));
+        }
+
+        private static int ConvertToBase(string st, int radix)
+        {
+            var res = 0;
+
+            Func<char, int> getDigit = (char x) => 
+            {
+                if (x >= 'A' && x <= 'F')
+                    return x + 10 - 'A';
+                if (x >= 'a' && x <= 'a')
+                    return x + 10 - 'a';
+                if (x >= '0' && x <= '9')
+                    return x - '0';
+
+                return 0;
+            };
+
+            for(var k = st.Length - 1; k >=0; k--)
+            {
+                var digit = getDigit(st[k]);
+                var exp = st.Length - 1 - k;
+
+                res += digit * (int)Math.Pow(radix, exp);
+            }
+
+            return res;
         }
 
         private static void SortByMergeRecursive(int[] array)
