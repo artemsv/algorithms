@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Algorithms.LeetCode
+namespace LeetCode.Tests.LeetCode
 {
     internal class MultiplyStrings
     {
@@ -8,7 +8,7 @@ namespace Algorithms.LeetCode
         {
             var summa = string.Empty;
 
-            for(var k = st1.Length - 1; k >= 0; k--)
+            for (var k = st1.Length - 1; k >= 0; k--)
             {
                 var d1 = ToInt(st1[k]);
 
@@ -19,6 +19,8 @@ namespace Algorithms.LeetCode
                     var res = d1 * d2;
                 }
             }
+
+            return summa;
         }
 
         private static int ToInt(char ch)

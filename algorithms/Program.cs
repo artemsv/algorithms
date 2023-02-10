@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -7,20 +8,44 @@ namespace Algorithms
 {
     class Program
     {
+        public static int[] TwoSum(int[] nums, int target)
+        {
+            var dic = new Dictionary<int, int>();
+
+            for (var k = 0; k < nums.Length; k++)
+            {
+                if (dic.TryGetValue(target - nums[k], out int index))
+                    return new int[] { k, index };
+                else
+                    dic[nums[k]] = k;
+            }
+
+            return null;
+        }
+
         static void Main(string[] args)
         {
+            var ed = TwoSum(new int[] { 2, 7, 11, 15 }, 9);
+
+            var count = 6;
+            count = count / 2;
+
+            var res = new List<string>(5);
+
+            res.Add($"{14 % 4}");
+
             var sourceArray = GetSourceArray(10000);
             //SortByInsert(sourceArray.Clone() as int[]);
             //SortByBubble(sourceArray.Clone() as int[]);
             //SortByMergeRecursive(sourceArray.Clone() as int[]);
-             
+
             // 1. Arrays and strings
 
             Console.WriteLine(ConvertToBase("3E8", 16));
             Console.WriteLine(ConvertToBase("1001", 2));
             Console.WriteLine(Compressstring("aabcccccaaa"));
 
-            RotateMatrix(new char[][] { new char[]{ '1', '2', '3', '4' } , new char[] { '5', '6', '7', '8' }, new char[] { '9', 'A', 'B', 'C' }, new char[] { 'D', 'E', 'F', 'G' } });
+            RotateMatrix(new char[][] { new char[] { '1', '2', '3', '4' }, new char[] { '5', '6', '7', '8' }, new char[] { '9', 'A', 'B', 'C' }, new char[] { 'D', 'E', 'F', 'G' } });
 
             Console.WriteLine($"word Rotated: {CheckIsWordRotated("erewbottlewa4t", "wa4terewbottle")}");
 
@@ -52,9 +77,9 @@ namespace Algorithms
             PrintMatrix(matrix);
             var n = matrix.Length;
 
-            for (var k = 0; k< n / 2;k++)
+            for (var k = 0; k < n / 2; k++)
             {
-                for (var i = k; i < n - (k + 1);i++)
+                for (var i = k; i < n - (k + 1); i++)
                 {
                     var t = matrix[k][i];
                     var t1 = matrix[i][n - k - 1];
@@ -106,7 +131,7 @@ namespace Algorithms
                     {
                         compressPartLen++;
                     }
-                    
+
                     if (ch != newChar || index == len - 1)
                     {
                         sb.Append($"{ch}{compressPartLen}");

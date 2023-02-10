@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algorithms.LeetCode
+namespace LeetCode.Tests.LeetCode
 {
     class TwoSum
     {
         internal static int[] Find(int[] array, int target)
         {
             var dic = new Dictionary<int, int>();
-            for(var k = 0; k < array.Length; k++)
+            for (var k = 0; k < array.Length; k++)
             {
                 var diff = target - array[k];
 
